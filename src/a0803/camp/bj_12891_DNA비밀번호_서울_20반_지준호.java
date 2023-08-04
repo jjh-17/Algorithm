@@ -17,15 +17,12 @@ public class bj_12891_DNA비밀번호_서울_20반_지준호 {
 	
 	
 	public static boolean check() {
-		boolean flag = true;
-		
 		for(int i=0;i<4;i++) {
 			if(required[i] > current[i]) {
-				flag = false;
-				break;
+				return false;
 			}	
 		}
-		return flag;
+		return true;
 	}
 	
 	public static void main(String[] args) throws Exception {

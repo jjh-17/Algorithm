@@ -20,6 +20,7 @@ public class bj_2023_신기한소수_서울_20반_지준호 {
 		
 		perm(0);
 		
+		br.close();
 		System.out.println(sb.toString());
 	}
 	
@@ -27,11 +28,9 @@ public class bj_2023_신기한소수_서울_20반_지준호 {
 		if(num==1)
 			return false;
 		
-		for(int i=0;i<N;i++) {
-			for(int j=2;j<=Math.sqrt(num);j++) {
-				if(num%j==0)
-					return false;
-			}
+		for(int i=2;i<=Math.sqrt(num);i++) {
+			if(num%i==0)
+				return false;
 		}		
 		return true;
 	}
