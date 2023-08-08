@@ -26,19 +26,17 @@ public class swea_d3_1225_암호생성기_서울_20반_지준호 {
 				q.offerLast(Integer.parseInt(st.nextToken()));
 			
 			//암호화
-			int cnt = 1;
-			while(true) {
-				for(int i=0;i<8;i++) {
+			boolean flag = true;
+			while(flag) {
+				for(int cnt=1;cnt<=5;cnt++) {
 					int p = q.pollFirst();
-					if(p-cnt < 0) {
+					if(p-cnt<=0) {
 						q.offerLast(0);
-					} else {
-						q.offerLast(p-cnt);
-						cnt++;
+						flag = false;
+						break;
 					}
-					System.out.println(cnt);
+					q.offerLast(p-cnt);
 				}
-				
 			}
 			
 			while(!q.isEmpty())

@@ -34,11 +34,11 @@ public class CombMain {
 		}		
 		
 		for(int i=start;i<N;i++) {
-			if(visited[i]) continue;
-			visited[i] = true;
+//			if(visited[i]) continue;
+//			visited[i] = true;
 			b[cnt] = a[i];
-			comb(cnt+1, i);
-			visited[i] = false;
+			comb(cnt+1, i+1);
+//			visited[i] = false;
 		}
 	}
 	
