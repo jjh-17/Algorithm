@@ -8,7 +8,7 @@ public class swea_d3_1228_암호문1 {
 
 	static final StringBuilder sb = new StringBuilder();
 	static int N;
-	static final ArrayDeque<String> stack = new ArrayDeque<>();
+	static final ArrayDeque<String> deque = new ArrayDeque<>(), temp1 = new ArrayDeque<>(), temp2 = new ArrayDeque<>();
 	
 	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
@@ -19,35 +19,34 @@ public class swea_d3_1228_암호문1 {
 		int T = 10;
 		for(int t=1;t<=T;t++) {
 			sb.append("#").append(t).append(" ");
+			deque.clear(); //ArrayDeque 초기화
 			
 			//N 입력
 			int N = Integer.parseInt(br.readLine());
 			
 			//원본 암호문 저장
 			st = new StringTokenizer(br.readLine());
-			for(int i=0;i<Math.min(N, 10);i++) stack.offerLast(st.nextToken());
-			
+			for(int i=0;i<10;i++) deque.offerLast(st.nextToken());
+		
 			//명령어 개수
 			int M = Integer.parseInt(br.readLine());
 			
 			//명령어 처리
 			st = new StringTokenizer(br.readLine());
 			for(int i=0;i<M;i++) {
+				temp1.clear(); temp2.clear();//ArrayDeque 초기화
 				st.nextToken(); //instruction 제거
-				int X = Integer.parseInt(st.nextToken()), Y = Integer.parseInt(st.nextToken());
+				int X = Integer.parseInt(st.nextToken()), Y = Integer.parseInt(st.nextToken()); //넣을 위치, 넣을 개수
+				for(int y=0;y<Integer.min(Y, 10);y++) temp1.offerLast(st.nextToken()); //min(Y, 10)개 값 저장
 				
-				//필요한 공간만큼 stack을 비운다
-				int L = stack.size();
-				for(int j=0;j<L-X;j++) stack.pollLast();
-				
-				//Y만큼 넣을 값을 입력 받는다. 단, stack의 크기는 10이하 유지
-				for(int j=0;j<Y;j++) {
-					String Z = st.nextToken();
-					if(stack.size()<10) stack.offerLast(Z);
-				}
+				if(0<=X && X<10) { //넣을 위치가 10미만인 경우
+					for(int j=0;j<X;j++) temp2.offerLast(deque.pollFirst()); //temp2에 deque의 X만큼 추가
+					while(!temp1.isEmpty()) temp2.offerLast(temp1.pollFirst());
+					while(!temp2.isEmpty()) deque.offerFirst(temp2.pollLast());
+					while(deque.size()>10) deque.pollLast();
+				}	
 			}
-			
-			while(!stack.isEmpty()) sb.append(stack.pollFirst()).append(" ");
+			while(!deque.isEmpty()) sb.append(deque.pollFirst()).append(" ");
 			sb.append("\n");
 		}
 		
