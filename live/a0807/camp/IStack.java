@@ -1,4 +1,4 @@
-package a0807.camp.live;
+package a0807.camp;
 
 public interface IStack<E> {
 	void push(E e);
