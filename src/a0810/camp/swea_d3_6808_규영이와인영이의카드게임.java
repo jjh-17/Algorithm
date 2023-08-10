@@ -11,6 +11,9 @@ public class swea_d3_6808_규영이와인영이의카드게임 {
 	static int[] arr1 = new int[N/2], arr2 = new int[N/2]; //규영이가 뽑은 숫자, 인영이가 뽑은 숫자
 	static boolean[] v; //각 숫자의 사용 여부(숫자=인덱스+1)
 	
+	//추가
+	static final int border = 19*9/2;
+	
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		System.setIn(new FileInputStream("res\\input_swea_d3_6808_규영이와인영이의카드게임.txt"));
@@ -36,7 +39,8 @@ public class swea_d3_6808_규영이와인영이의카드게임 {
 			}
 			
 			//순열
-			perm(0);
+//			perm(0);
+			perm2(0, 0, 0);
 			sb.append(WIN).append(" ").append(LOSE).append("\n");
 		}
 		
@@ -57,6 +61,23 @@ public class swea_d3_6808_규영이와인영이의카드게임 {
 			v[i] = true;
 			arr2[cnt] = i+1;
 			perm(cnt+1);
+			v[i] = false;
+		}
+	}
+	
+	public static void perm2(int cnt, int sum1, int sum2) {
+		if(cnt==N/2) {
+			if(sum1>sum2) ++WIN;
+			else if(sum1<sum2) ++LOSE;
+			return;
+		}
+		
+		for(int i=0;i<N;i++) {
+			if(v[i]) continue;
+			v[i] = true;
+			if(arr1[cnt] > i+1) perm2(cnt+1, sum1+arr1[cnt]+(i+1), sum2);
+			else if(arr1[cnt] < i+1) perm2(cnt+1, sum1, sum2+arr1[cnt]+(i+1));
+			else perm2(cnt+1, sum1, sum2);
 			v[i] = false;
 		}
 	}
