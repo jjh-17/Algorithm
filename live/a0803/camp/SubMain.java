@@ -18,9 +18,9 @@ public class SubMain {
 			return;
 		}		
 		
-		visited[cnt] = true;
+//		visited[cnt] = true;
 		subs(cnt+1, str+a[cnt] + "\t");
-		visited[cnt] = false;
+//		visited[cnt] = false;
 		subs(cnt+1, str + "X\t");
 	}
 	

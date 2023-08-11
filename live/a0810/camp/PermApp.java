@@ -105,7 +105,7 @@ public class PermApp {
 		while(i>0 && p[i-1]>=p[i]) --i;
 		if(i==0) return false; //현재 순열이 가장 큰 순열
 		
-		//2. 꼭대기 직전 위치(i-1)에 교환할 한단계 큰 수 뒤족부터 찾기
+		//2. 꼭대기 직전 위치(i-1)에 교환할 한단계 큰 수 뒤쪽부터 찾기
 		int j = N-1;
 		while(p[i-1]>=p[j]) --j;
 		
