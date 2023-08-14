@@ -11,7 +11,7 @@ public class CombMain {
 	static boolean[] visited = new boolean[N];
 
 	
-	//중복 허용 순열 생성
+	//동일 원소 허용 조합 생성
 	static void combR(int cnt, int start) {
 		if(cnt==R) {
 			System.out.println(Arrays.toString(b));
@@ -25,7 +25,7 @@ public class CombMain {
 		}
 	}
 	
-	//중복 불가 순열 생성
+	//동일 원소 불가 조합 생성
 	static void comb(int cnt, int start) {
 		if(cnt==R) {
 			System.out.println(Arrays.toString(b));
@@ -34,11 +34,8 @@ public class CombMain {
 		}		
 		
 		for(int i=start;i<N;i++) {
-//			if(visited[i]) continue;
-//			visited[i] = true;
 			b[cnt] = a[i];
 			comb(cnt+1, i+1);
-//			visited[i] = false;
 		}
 	}
 	
