@@ -10,9 +10,8 @@ public class bj_g2_3109_빵집 {
 					   DJ = {1, 1, 1};
 	static final char EMPTY='.', BUILDING='x';
 	static int R, C, CNT;
-	static int CI;
 	static char[][] MAP;
-	static boolean[][] V;
+	static boolean V[][], flag;
 	
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
@@ -24,7 +23,6 @@ public class bj_g2_3109_빵집 {
 		st = new StringTokenizer(br.readLine());
 		R = Integer.parseInt(st.nextToken()); C = Integer.parseInt(st.nextToken());
 		MAP = new char[R][C]; CNT = 0; V = new boolean[R][C];
-		CI=0;
 		
 		//MAP
 		for(int i=0;i<R;i++) {
@@ -32,8 +30,10 @@ public class bj_g2_3109_빵집 {
 			for(int j=0;j<C;j++) MAP[i][j] = str.charAt(j);
 		}
 		
+		//dfs
 		for(int i=0;i<R;i++) {
-			if(dfs(i, 0)) ++CNT;
+			flag = false;
+			dfs(i, 0);
 		}
 		
 		
@@ -42,11 +42,14 @@ public class bj_g2_3109_빵집 {
 	}
 	
 	//현 위치, 현재 파이프 라인 경로 개수
-	//파이프를 최대한 위로 설치하는 것이 가장 좋은 경우
-	static boolean dfs(int i, int j) {
+	//파이프를 최대한 위로 설치하는 것이 가장 좋은 경우임
+	//어떠한 경로가 맞은편으로 도착할 수 없는 경우, 그 어떤 경로라도 해당 경로를 포함하는 순간 맞은편으로 도달 불가
+	static void dfs(int i, int j) {
+		if(flag) return;
+		
 		if(j==C-1) { 
-			V[i][j] = true;
-			return true;
+			V[i][j] = true; ++CNT; flag=true;
+			return;
 		}
 		
 		//탐색
@@ -56,12 +59,7 @@ public class bj_g2_3109_빵집 {
 			int nj = j + DJ[d];
 			
 			//신규 좌표 조건: R*C격자 내부, 빈 공간일 것, 들르지 아니한 곳일 것
-			if(0<=ni&&ni<R && 0<=nj&&nj<C && MAP[ni][nj]==EMPTY && !V[ni][nj]) {
-				if(dfs(ni, nj)) return true;
-			}
+			if(0<=ni&&ni<R && 0<=nj&&nj<C && MAP[ni][nj]==EMPTY && !V[ni][nj]) dfs(ni, nj);
 		}
-		
-		//현 경로를 실패한 경우, 해당 경로는 더이상 탐색할 필요 없음 ==> V 원상 복귀 불필요!!!!!
-		return false;
 	}
 }
