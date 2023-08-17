@@ -16,16 +16,13 @@ public class bj_g2_19236_청소년상어 {
 		}	
 		public Fish() {}
 	}
-		
-	//상어 정보 - 위치 정보, 방향, 먹은 물고기 수
-	static int sDir;
-	
 	static final int N = 4, DIR_NUM=8, N2 = 16;
-	static final Fish[] MAP_1D = new Fish[N2 + 1]; //물고기 번호 별 정보, 백업
+	static final Fish[] MAP_1D = new Fish[N2 + 1]; //물고기 번호 별 정보
 	static final int[][] MAP_2D = new int[N][N]; //각 좌표 별 물고기 번호
-	static final int[] DI = new int[] {-1, -1, 0, 1, 1, 1, 0, -1}, // ↑, ↖, ←, ↙, ↓, ↘, →, ↗
+	static final int[] DI = new int[] {-1, -1, 0, 1, 1, 1, 0, -1}, //↑, ↖, ←, ↙, ↓, ↘, →, ↗
 					   DJ = new int[] {0, -1, -1, -1, 0, 1, 1, 1};
-	static int MAX_EAT = Integer.MIN_VALUE;
+	static int MAX_EAT = Integer.MIN_VALUE,
+			   sDir;
 	
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
@@ -52,33 +49,29 @@ public class bj_g2_19236_청소년상어 {
 	}
 	
 	public static void dfs(int i, int j, int dir, int sum) { //현재 상어 위치, 방향, 먹은 물고기 번호 합
+		//물고기 정보 백업
+		Fish[] MAP_1D_BU = new Fish[N2+1]; int[][] MAP_2D_BU = new int[N][N];
+		for(int a=1;a<=N2;a++) MAP_1D_BU[a] = new Fish(MAP_1D[a].i, MAP_1D[a].j ,MAP_1D[a].dir ,MAP_1D[a].life);
+		for(int a=0;a<N;a++) { for(int b=0;b<N;b++) MAP_2D_BU[a][b] = MAP_2D[a][b]; }
+		
+		//물고기 이동
+		MAP_1D[MAP_2D[i][j]].life = false;
+		fishMove(i, j);
+		
+		//상어 정보 업데이트
 		int ni = i+DI[dir], nj = j+DJ[dir];
 		while(0<=ni&&ni<N && 0<=nj&&nj<N) {
-			if(MAP_1D[MAP_2D[ni][nj]].life) {
-				//물고기 정보 백업
-				Fish[] MAP_1D_BU = new Fish[N2+1]; int[][] MAP_2D_BU = new int[N][N];
-				for(int a=1;a<=N2;a++) MAP_1D_BU[a] = new Fish(MAP_1D[a].i, MAP_1D[a].j ,MAP_1D[a].dir ,MAP_1D[a].life);
-				for(int a=0;a<N;a++) { for(int b=0;b<N;b++) MAP_2D_BU[a][b] = MAP_2D[a][b]; }
-				
-				//상어가 물고기를 먹음
-				MAP_1D[MAP_2D[ni][nj]].life = false;
-				
-				//물고기 이동
-				fishMove(ni, nj);
-				for(int[] m : MAP_2D) System.out.println(Arrays.toString(m));
-				System.out.println();
+			if(MAP_1D[MAP_2D[ni][nj]].life)
 				dfs(ni, nj, MAP_1D[MAP_2D[ni][nj]].dir, sum + MAP_2D[ni][nj]); //dfs
-				
-				//물고기 정보 복원
-				for(int a=1;a<=N2;a++) {
-					MAP_1D[a].i = MAP_1D_BU[a].i; MAP_1D[a].j = MAP_1D_BU[a].j;
-					MAP_1D[a].dir = MAP_1D_BU[a].dir; MAP_1D[a].life = MAP_1D_BU[a].life;
-				}
-				for(int a=0;a<N;a++) { for(int b=0;b<N;b++) MAP_2D[a][b] = MAP_2D_BU[a][b]; }
-			}
-			
 			ni+=DI[dir]; nj+=DJ[dir];
 		}
+		
+		//물고기 정보 복원
+		for(int a=1;a<=N2;a++) {
+			MAP_1D[a].i = MAP_1D_BU[a].i; MAP_1D[a].j = MAP_1D_BU[a].j;
+			MAP_1D[a].dir = MAP_1D_BU[a].dir; MAP_1D[a].life = MAP_1D_BU[a].life;
+		}
+		for(int a=0;a<N;a++) { for(int b=0;b<N;b++) MAP_2D[a][b] = MAP_2D_BU[a][b]; }
 		
 		//상어가 더 이상 이동을 할 공간이 없는 경우
 		MAX_EAT = Integer.max(MAX_EAT, sum);
@@ -106,18 +99,5 @@ public class bj_g2_19236_청소년상어 {
 				MAP_1D[i].dir = (MAP_1D[i].dir+1)%DIR_NUM;
 			}
 		}
-	}
-	
-	public static String getDir(int d) {
-		if(d==0) return "↑";
-		else if(d==1) return "↖";
-		else if(d==2) return "←";
-		else if(d==3) return "↙";
-		else if(d==4) return "↓";
-		else if(d==5) return "↘";
-		else if(d==6) return "→";
-		else if(d==7) return "↗";
-		
-		return "";
 	}
 }
