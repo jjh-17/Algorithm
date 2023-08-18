@@ -3,13 +3,12 @@ package a0818.camp;
 import java.util.*;
 import java.io.*;
 
-//해결 중
 public class bj_s2_1260_DFS와BFS {
 	
 	static final StringBuilder sb = new StringBuilder();
 	static int N, M, V;
 	static boolean[] v;
-	static PriorityQueue<Integer>[] map;
+	static PriorityQueue<Integer>[] map1, map2;
 
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
@@ -23,12 +22,16 @@ public class bj_s2_1260_DFS와BFS {
 		V = Integer.parseInt(st.nextToken()); v = new boolean[N];
 
 		//map
-		map = new PriorityQueue[N+1];
-		for(int i=0;i<=N;i++) map[i] = new PriorityQueue<>();
+		map1 = new PriorityQueue[N+1]; map2 = new PriorityQueue[N+1];
+		for(int i=0;i<=N;i++) {
+			map1[i] = new PriorityQueue<>();
+			map2[i] = new PriorityQueue<>();
+		}
 		for(int i=0;i<M;i++) {
 			st = new StringTokenizer(br.readLine());
 			int start = Integer.parseInt(st.nextToken()), end = Integer.parseInt(st.nextToken());
-			map[start].add(end); map[end].add(start);
+			map1[start].add(end); map1[end].add(start);
+			map2[start].add(end); map2[end].add(start);
 		}
 		
 		//dfs
@@ -47,9 +50,8 @@ public class bj_s2_1260_DFS와BFS {
 		v[s] = true;
 		
 		sb.append(s).append(" ");
-		Iterator it = map[s].iterator();
-		while(it.hasNext()) {
-			int end = (int)it.next();
+		while(!map1[s].isEmpty()) {
+			int end = map1[s].poll();
 			if(!v[end]) dfs(end);
 		}
 	}
@@ -61,9 +63,8 @@ public class bj_s2_1260_DFS와BFS {
 		while(!queue.isEmpty()) {
 			int start = queue.pollFirst();
 			sb.append(start).append(" ");
-			Iterator it = map[start].iterator();
-			while(it.hasNext()) {
-				int end = (int)it.next();
+			while(!map2[start].isEmpty()) {
+				int end = map2[start].poll();
 				if(!v[end]) {
 					v[end] = true;
 					queue.offerLast(end);
