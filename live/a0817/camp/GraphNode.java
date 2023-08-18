@@ -5,7 +5,19 @@ import java.util.*;
 import java.io.*;
 
 public class GraphNode {
-	
+	static class Node{
+		int vertex;
+		Node link;
+		Node(int vertex, Node link){
+			this.vertex = vertex;
+			this.link = link;
+		}
+		
+		@Override
+		public String toString() {
+			return vertex + "-->" + link;
+		}
+	}
 	static final StringBuilder sb = new StringBuilder();
 	static int N, E;
 	static Node[] G;
@@ -61,20 +73,6 @@ public class GraphNode {
 					queue.offerLast(j.vertex);
 				}
 			}
-		}
-	}
-	
-	static class Node{
-		int vertex;
-		Node link;
-		Node(int vertex, Node link){
-			this.vertex = vertex;
-			this.link = link;
-		}
-		
-		@Override
-		public String toString() {
-			return vertex + "-->" + link;
 		}
 	}
 }
