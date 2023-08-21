@@ -47,7 +47,6 @@ public class bj_g3_17135_캐슬디펜스 {
 			for(int m[] : monster_origin) monster.add(new int[] {m[0], m[1]});
 //			game();
 			game2();
-//			System.out.println();
 			return;
 		}
 		
@@ -86,9 +85,6 @@ public class bj_g3_17135_캐슬디펜스 {
 				}
 			}
 			
-			//for(int[] t : targets) System.out.print(Arrays.toString(t)+" ");
-			//System.out.println();
-			
 			//중복 몬스터 제거
 			List<int[]> result = new ArrayList<>();
 			for(int i=0;i<3;i++) {
@@ -102,9 +98,6 @@ public class bj_g3_17135_캐슬디펜스 {
 				}
 				if(flag) result.add(targets[i]);
 			}
-			
-//			for(int[] r : result) System.out.print(Arrays.toString(r) + " ");
-//			System.out.println();
 			
 			//필드에서 몬스터 제거
 			for(int[] r : result) map[r[0]][r[1]]=0;
