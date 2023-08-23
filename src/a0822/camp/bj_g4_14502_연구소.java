@@ -1,4 +1,4 @@
-package a0821.camp;
+package a0822.camp;
 
 
 import java.util.*;
@@ -55,8 +55,10 @@ public class bj_g4_14502_연구소 {
 			//공간을 흩으며 들르지 아니하고 감염 구역인 곳에 대하여 바이러스 확산 수행
 			for(int i=0;i<N;i++) {
 				for(int j=0;j<M;j++) {
-					if(!v[i][j] && map2[i][j]==2)
-						spread(i, j);
+					if(!v[i][j] && map2[i][j]==2) {
+//						spreadDFS(i, j);
+						spreadBFS(i, j);
+					}
 				}
 			}
 			setSafe(); //현재 안전구역 수 계산
@@ -72,8 +74,8 @@ public class bj_g4_14502_연구소 {
 		}
 	}
 	
-	//바이러스 확산
-	static void spread(int i, int j) {
+	//바이러스 확산 - DFS
+	static void spreadDFS(int i, int j) {
 		//현 구역 visited 처리
 		v[i][j] = true;
 		
@@ -85,10 +87,37 @@ public class bj_g4_14502_연구소 {
 			//N*M이내, 아직 들르지 아니한 곳, 빈칸인 신규 좌표에 대하여 spread 재수행
 			if(0<=ni&&ni<N && 0<=nj&&nj<M && !v[ni][nj] && map2[ni][nj]==0) {
 				map2[ni][nj] = 2;
-				spread(ni, nj);	
+				spreadDFS(ni, nj);	
 			}
 		}
 	}
+	
+	//바이러스 확산 - BFS
+	static void spreadBFS(int i, int j) {
+		//ArrayDeque 선언
+		final ArrayDeque<int[]> queue = new ArrayDeque<>();
+		
+		v[i][j] = true; //현 구역 visited 처리
+		queue.offerLast(new int[] {i, j}); //큐에 추가
+		
+		while(!queue.isEmpty()) {
+			int[] cor = queue.pollFirst();
+			
+			//4방 탐색
+			for(int d=0;d<4;d++) {
+				int ni = cor[0] + di[d];
+				int nj = cor[1] + dj[d];
+				
+				//N*M이내, 아직 들르지 아니한 곳, 빈칸인 신규 좌표에 대하여 spread 재수행
+				if(0<=ni&&ni<N && 0<=nj&&nj<M && !v[ni][nj] && map2[ni][nj]==0) {
+					map2[ni][nj] = 2;
+					v[ni][nj] = true;
+					queue.offerLast(new int[] {ni, nj});
+				}
+			}
+		}
+	}
+	
 	
 	//안전 구역 개수 계산 - map2 완전 탐색
 	static void setSafe() {
