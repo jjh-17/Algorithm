@@ -3,11 +3,18 @@ package a0822.camp;
 import java.util.*;
 import java.io.*;
 
-//해결 중
 public class bj_g5_13023_ABCDE {
 
 	static final StringBuilder sb = new StringBuilder();
-	static List<Integer>[] map;
+	static class Node{
+		int vertex;
+		Node link;
+		public Node(int vertex, Node link) {
+			this.vertex = vertex;
+			this.link = link;
+		}
+	}
+	static Node[] g;
 	static int N, M, ans;
 	static int a, b;
 	static boolean[] v;
@@ -24,22 +31,21 @@ public class bj_g5_13023_ABCDE {
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
 		
-		map = new List[N];
-		for(int i=0;i<N;i++) map[i] = new ArrayList<>();
+		g = new Node[N];
 		for(int i=0;i<M;i++) {
 			st = new StringTokenizer(br.readLine());
 			a = Integer.parseInt(st.nextToken());
 			b = Integer.parseInt(st.nextToken());
 			
-			map[a].add(b); map[b].add(a);
+			g[a] = new Node(b, g[a]);
+			g[b] = new Node(a, g[b]);
 		}
-		
-		for(int i=0;i<N;i++) System.out.println(map[i]);
 		
 		for(int i=0;i<N;i++) {
 			v = new boolean[N];
 			flag = false;
-			dfs(i, 0);
+			dfs(i, 1);
+			
 			if(flag) break;
 		}
 		
@@ -50,18 +56,16 @@ public class bj_g5_13023_ABCDE {
 	
 	static void dfs(int a, int cnt) {
 		if(flag) return;
-		
-		if(cnt==N) {
-			System.out.println(Arrays.toString(v));
+
+		if(cnt==5) {
 			flag = true;
 			return;
 		}
 		
 		v[a] = true;
-		for(int m : map[a]) {
-			if(v[m]) continue;
-			System.out.println(Arrays.toString(v));
-			dfs(m, cnt+1);
+		for(Node node=g[a];node!=null;node=node.link) {
+			if(v[node.vertex]) continue;
+			dfs(node.vertex, cnt+1);
 		}
 		v[a] = false;
 	}

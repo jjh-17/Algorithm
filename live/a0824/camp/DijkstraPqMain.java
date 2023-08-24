@@ -1,9 +1,9 @@
-package a0823.camp;
+package a0824.camp;
 
 import java.util.*;
 import java.io.*;
 
-public class PrimPqMain {
+public class DijkstraPqMain {
 	
 	static class Vertex implements Comparable<Vertex>{
 		int vertex; //정점 번호
@@ -24,22 +24,21 @@ public class PrimPqMain {
 	public static void main(String[] args) throws Exception {
 		Scanner sc = new Scanner(System.in);
 		int N = sc.nextInt();
+		int start = sc.nextInt(), end = sc.nextInt();
 		int[][] g = new int[N][N];
 		boolean[] v = new boolean[N];
-		int[] minEdge = new int[N]; //Prim의 weight
+		int[] dist = new int[N]; //Prim의 weight
 		
 		for(int i=0;i<N;i++) {
 			for(int j=0;j<N;j++) 
 				g[i][j] = sc.nextInt();
-			minEdge[i] = Integer.MAX_VALUE;
+			dist[i] = Integer.MAX_VALUE;
 		}
 
-		int result=0; //최소신장트리 코스트
-		int min=0, minVertex=0, cnt=0;
-		
+		int min=0, minVertex=0, cnt=0;		
 		PriorityQueue<Vertex> pq = new PriorityQueue<>();
-		minEdge[0] = 0; //0번 정점에서 먼저 시작하도록 0으로 설정
-		pq.offer(new Vertex(0, minEdge[0])); //정점, 가중치 추가
+		dist[start] = 0; //0번 정점에서 먼저 시작하도록 0으로 설정
+		pq.offer(new Vertex(start, dist[start])); //정점, 가중치 추가
 
 		while(!pq.isEmpty()) {
 			//step1: 미방문(비트리) 정점 중 최소 간선 비용 정점 선택
@@ -50,31 +49,24 @@ public class PrimPqMain {
 			//step2: 현 정점이 들른 곳이면 넘어감
 			if(v[minVertex]) continue;
 			
+			
+			if(minVertex==-1) break;
+			
 			//step3: 방문(트리) 정점 추가
 			v[minVertex] = true;
-			result += min;
 			
 			//step4: 정점 방문 횟수가 N-1개가 되면 탈출
-			if(cnt++ == N-1) break;
+			if(minVertex == end) break;
 			
-			//step5: 트리에 추가된 새로운 정점 기준, 비트리 정점과의 산선 비용 고려
+			//step5: 트리에 추가된 새로운 정점 기준, 비트리 정점과의 간선 비용 고려
 			for(int j=0;j<N;j++) {
-				if(!v[j] && g[minVertex][j]!=0 && minEdge[j]>g[minVertex][j]) {
-					minEdge[j] = g[minVertex][j];
-					pq.offer(new Vertex(j, minEdge[j]));
+				if(!v[j] && g[minVertex][j]!=0 && dist[j]>(min + g[minVertex][j])) {
+					dist[j] = min + g[minVertex][j];
+					pq.offer(new Vertex(j, dist[j]));
 				}
 			}
 		}
-		System.out.println(result);
+		System.out.println(dist[end]);
 		sc.close();
 	}
 }
-
-/*
-5
-0 5 10 8 7 
-5 0 5 3 6 
-10 5 0 1 3 
-8 3 1 0 1 
-7 6 3 1 0
- */
