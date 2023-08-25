@@ -49,9 +49,6 @@ public class DijkstraPqMain {
 			//step2: 현 정점이 들른 곳이면 넘어감
 			if(v[minVertex]) continue;
 			
-			
-			if(minVertex==-1) break;
-			
 			//step3: 방문(트리) 정점 추가
 			v[minVertex] = true;
 			
