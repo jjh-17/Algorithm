@@ -3,10 +3,11 @@ package a0825.camp;
 import java.util.*;
 import java.io.*;
 
-//인접 리스트 기반
+//인접 노드 기반
 public class DijkstraTest {
 
-	static class Node {
+	static final StringBuilder sb= new StringBuilder();
+	static class Node implements Comparable<Node>{
 		int vertex, weight;
 		Node link;
 		public Node(int vertex, int weight, Node link) {
@@ -14,6 +15,11 @@ public class DijkstraTest {
 			this.vertex = vertex;
 			this.weight = weight;
 			this.link = link;
+		}
+		
+		@Override
+		public int compareTo(Node o) {
+			return Integer.compare(this.weight, o.weight);
 		}
 	}
 	
@@ -46,15 +52,33 @@ public class DijkstraTest {
 		
 		//알고리즘 시작
 		for(int i=0;i<V;i++) dist[i] = Integer.MAX_VALUE;
-		int min=0, cnt=0;
+		int minWeight, minVertex, cnt=0;
 		dist[start] = 0;
-		for(int i=0;i<V;i++) {
+		
+		PriorityQueue<Node> pq = new PriorityQueue<>();
+		pq.offer(new Node(start, dist[start], G[start]));
+		while(!pq.isEmpty()) {
 			//step1 : 미방문 정점 중 출발지에서 가장 가까운 정점을 경유지로 선택
+			Node cur = pq.poll();
+			minVertex = cur.vertex;
+			minWeight = cur.weight;
 			
+			if(v[minVertex]) continue;
+			v[minVertex] = true;
 			
+			if(minVertex==end) break;
+			
+			for(Node node=cur;node!=null;node=node.link) {
+				if(!v[node.vertex] && dist[node.vertex]>(minWeight+node.weight)) {
+					dist[node.vertex] = minWeight + node.weight;
+					pq.offer(new Node(node.vertex, dist[node.vertex], G[node.vertex]));
+				}
+			}	
 		}
 		
-		
+		sb.append(dist[end]==Integer.MAX_VALUE ? -1 : dist[end]);
+		System.out.println(sb.toString());
+		br.close();
 	}
 
 }

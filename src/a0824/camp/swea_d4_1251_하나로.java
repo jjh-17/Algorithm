@@ -15,8 +15,10 @@ public class swea_d4_1251_하나로 {
 			this.weight = weight;
 		}
 	}
+	
 	static final StringBuilder sb = new StringBuilder();
 	static final PriorityQueue<Vertex> pq = new PriorityQueue<>((o1, o2)->Double.compare(o1.weight, o2.weight));
+	
 	static int N;
 	static double[][] G;
 	static int[] X, Y;
