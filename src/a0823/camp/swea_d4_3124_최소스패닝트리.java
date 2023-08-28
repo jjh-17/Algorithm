@@ -26,6 +26,7 @@ public class swea_d4_3124_최소스패닝트리 {
 	}
 	static Edge[] edgeList;
 	static int[] parents;
+	static PriorityQueue<Edge> pqEdge = new PriorityQueue<>();
 	
 	//Prim - Priority Queue
 	static class Node {
@@ -58,14 +59,14 @@ public class swea_d4_3124_최소스패닝트리 {
 			V = Integer.parseInt(st.nextToken());
 			E = Integer.parseInt(st.nextToken());
 			
-//			//Kruskal 초기화
-//			edgeList = new Edge[E];
-//			parents = new int[V+1];
+			//Kruskal 초기화
+			edgeList = new Edge[E];
+			parents = new int[V+1];
 			
-			//Prim 초기화
-			G = new Node[V+1];
-			v = new boolean[V+1];
-			minEdge = new int[V+1];
+//			//Prim 초기화
+//			G = new Node[V+1];
+//			v = new boolean[V+1];
+//			minEdge = new int[V+1];
 			
 			//A, B, C 입력
 			for(int i=0;i<E;i++) {
@@ -74,17 +75,18 @@ public class swea_d4_3124_최소스패닝트리 {
 				B = Integer.parseInt(st.nextToken());
 				C = Integer.parseInt(st.nextToken());
 				
-//				//Kruskal
+				//Kruskal
 //				edgeList[i] = new Edge(A, B, C);
+				pqEdge.add(new Edge(A, B, C));
 				
-				//Prim
-				G[A] = new Node(B, C, G[A]);
-				G[B] = new Node(A, C, G[B]);
+//				//Prim
+//				G[A] = new Node(B, C, G[A]);
+//				G[B] = new Node(A, C, G[B]);
 			}
 			
 			sb.append("#").append(t).append(" ");
-			primPQ();
-//			kruskal();
+//			primPQ();
+			kruskal();
 		}
 		
 		br.close();
