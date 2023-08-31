@@ -1,9 +1,9 @@
-package a0830;
+package a0831;
 
 import java.util.*;
 import java.io.*;
 
-public class bj_g3_1600_말이되고픈원숭이_2 {
+public class bj_g3_1600_말이되고픈원숭이 {
 
 	static final StringBuilder sb = new StringBuilder();
 	static final int[] diHorse = {-2, -1, 1, 2, 2, 1, -1, -2},
@@ -11,7 +11,7 @@ public class bj_g3_1600_말이되고픈원숭이_2 {
 			 		   diMonkey = {-1, 0, 1, 0},
 			 		   djMonkey = {0, 1, 0, -1};
 	static int K, W, H;
-	static int[][] field; //장애물
+	static int[][] field; //필드 정보 - 장애물
 
 	static class Info {
 		int i, j;
@@ -52,16 +52,16 @@ public class bj_g3_1600_말이되고픈원숭이_2 {
 		
 		//BFS
 		BFS();
-		
-//		for(Info[] s : state) System.out.println(Arrays.toString(s));
- 		
+
+		//출력
 		System.out.println(sb.toString());
 		br.close();
 	}
 	
 	static void BFS() {
-		ArrayDeque<Info> queue = new ArrayDeque<>();
+		final ArrayDeque<Info> queue = new ArrayDeque<>();
 		
+		//필드가 1*1인 경우
 		if(H==1 && W==1) {
 			sb.append(field[0][0]==0 ? 0 : -1);
 			return;
@@ -83,18 +83,20 @@ public class bj_g3_1600_말이되고픈원숭이_2 {
 					if(ni<0 || ni>=H || nj<0 || nj>=W 
 							|| field[ni][nj]==1 || (ni==0 && nj==0)) continue;
 
-					//신규좌표와 기존 위치의 cntK가 다르거나, 전체 횟수가 기존 위치의 것이 더 크다면 continue
-					int ncntK = state[ni][nj].cntK, ncntM = state[ni][nj].cntM;
+					//신규 좌표가 도착지인 경우 ==> 종료 
 					if(ni==H-1 && nj==W-1) {
 						sb.append(cntK+1+cntM);
 						return;
-					}
+					}					
 					
-					//신규 좌표의 횟수가 0 OR 
-					if(ncntK+ncntM==0 || ncntK+ncntM>cntK+1+cntM) {
+					//신규 좌표에 최초 입성
+					//OR 현 좌표에서 이동 시의 cntK와 기존 cntK가 동일할 때, 이동 시 총횟수가 기존 총횟수부다 작을 때
+					//OR 현 좌표에서 이동 시의 cntK가 기존 cntK보다 작을 때 갱신 ==> 왜 cntK가 작으면 항상 좋은 것인가?
+					int ncntK = state[ni][nj].cntK, ncntM = state[ni][nj].cntM;
+					if(ncntK+ncntM==0 || (ncntK==cntK+1 && ncntK+ncntM>cntK+1+cntM) || ncntK>cntK+1) {
 						queue.offerLast(new Info(ni, nj, cntK+1, cntM));
 						state[ni][nj].cntK = cntK+1;
-						state[ni][nj].cntM = cntM;	
+						state[ni][nj].cntM = cntM;		
 					}
 				}
 			}
@@ -108,23 +110,23 @@ public class bj_g3_1600_말이되고픈원숭이_2 {
 				if(ni<0 || ni>=H || nj<0 || nj>=W 
 						|| field[ni][nj]==1 || (ni==0 && nj==0)) continue;
 				
-				//신규 좌표가 비어있거나, 신규좌표 횟수보다 현재 횟수가 더 크거나, 같으나 신규좌표의 cntK가 현재 cntK보다 클 때
-				int ncntK = state[ni][nj].cntK, ncntM = state[ni][nj].cntM;
+				//신규 좌표가 도착지인 경우 ==> 종료 
 				if(ni==H-1 && nj==W-1) {
 					sb.append(cntK+cntM+1);
 					return;
 				}
 				
-				//신규좌표에 첫입성 OR 
-				if(ncntK+ncntM==0 || ncntK!=cntK || ncntK+ncntM>cntK+cntM+1) {
+				//신규 좌표에 최초 입성
+				//OR 현 좌표에서 이동 시의 cntK와 기존 cntK가 동일할 때, 이동 시 총횟수가 기존 총횟수부다 작을 때
+				//OR 현 좌표에서 이동 시의 cntK가 기존 cntK보다 작을 때 갱신 ==> 일반적으로는 cntK가 작을수록 유리하다. 
+				int ncntK = state[ni][nj].cntK, ncntM = state[ni][nj].cntM;
+				if(ncntK+ncntM==0 || (ncntK==cntK && ncntK+ncntM>cntK+cntM+1) || ncntK>cntK) {
 					queue.offerLast(new Info(ni, nj, cntK, cntM+1));
 					state[ni][nj].cntK = cntK;
-					state[ni][nj].cntM = cntM+1;
+					state[ni][nj].cntM = cntM+1;		
 				}
 			}
 		}
-		
 		sb.append(-1);
 	}
-
 }
