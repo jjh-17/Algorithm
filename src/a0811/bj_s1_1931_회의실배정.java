@@ -5,7 +5,7 @@ import java.io.*;
 
 public class bj_s1_1931_회의실배정 {
 
-	static int N, MAX, R; //최대 회의 개수, 
+	static int N;	//회의실 개수
 	static int EX_END_TIME = Integer.MIN_VALUE; //이전 회의 종료 시간
 	
 	//종료 시간 순 정렬
@@ -19,7 +19,7 @@ public class bj_s1_1931_회의실배정 {
 		
 		//회의 개수 입력
 		N = Integer.parseInt(br.readLine());
-		map = new int[N][2];
+		map = new int[N][2]; //N개 회의의 시작/종료 시간
 		
 		//회의 시간 입력 및 최소 시작 시간, 최대 시작 시간 초기화
 		for(int i=0;i<N;i++) {
@@ -39,8 +39,6 @@ public class bj_s1_1931_회의실배정 {
 				cnt++;
 			}
 		}
-		
 		System.out.println(cnt);
-		
 	}
 }
