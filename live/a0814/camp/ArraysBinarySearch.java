@@ -7,7 +7,7 @@ public class ArraysBinarySearch {
 
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-		int[] ia = {1, 3, 5, 7, 9};
+		int[] ia = {1, 1, 5, 5, 9};
 		
 		System.out.println("*-10:\t" + Arrays.binarySearch(ia, -10));
 		System.out.println("*-4:\t" + Arrays.binarySearch(ia, -4));
