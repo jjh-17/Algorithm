@@ -2,38 +2,33 @@ package a0908;
 
 import java.util.*;
 import java.io.*;
+import java.lang.Math;
 
 public class bj_g1_1194_달이차오른다가자 {
 
 	//출력 변수
 	static final StringBuilder sb = new StringBuilder();
 	
-	//미로 정보
-	static int N, M;		//미로의 세로, 가로 크기
-	static char[][] map;	//미로
-	static boolean[][] V;	//미로 각 위치의 visited 여부(누적됨)
-	static int si, sj;		//시작 위치	
-	
-	//이동 정보
-	static final int[] di = {-1, 0, 1, 0},
-					   dj = {0, 1, 0, -1};
-	
 	//민식이 정보
 	static class Minsic{
-		//위치 정보
-		int i, j;
+		int i, j;		//좌표
+		int cnt, key;	//이동 횟수, 현재 key 상태
 		
-		//이동 횟수
-		int cnt=0;
-		
-		//갖고 있는 key 정보: 0~5 == 'a'~'f'
-		boolean[] keys;
-
-		public Minsic(int i, int j, int cnt, boolean[] keys) {
-			this.i=i; 		this.j=j; 
-			this.cnt=cnt; 	this.keys=keys;
+		public Minsic(int i ,int j, int cnt, int key) {
+			this.i=i; this.j=j; 
+			this.cnt=cnt; this.key=key;
 		}
 	}
+	
+	//미로 정보
+	static int N, M;				//미로의 세로, 가로 크기
+	static char[][] map;			//미로 정보
+	static int si, sj;				//시작 위치	
+	
+	//이동 정보
+	static final int[] di = {-1, 0, 1, 0},	//4방 탐색
+					   dj = {0, 1, 0, -1};
+	static boolean[][][] v;					//각 열쇠를 이용한 방문 여부
 	
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
@@ -46,7 +41,7 @@ public class bj_g1_1194_달이차오른다가자 {
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
 		
-		map = new char[N][M]; V = new boolean[N][M];
+		map = new char[N][M]; v = new boolean[N][M][64];
 		for(int i=0;i<N;i++) {
 			String input = br.readLine();
 			for(int j=0;j<M;j++) {
@@ -57,6 +52,8 @@ public class bj_g1_1194_달이차오른다가자 {
 			}
 		}
 		
+		bfs(si, sj);
+		
 		//출력
 		System.out.println(sb.toString());
 		br.close();
@@ -66,51 +63,52 @@ public class bj_g1_1194_달이차오른다가자 {
 	static void bfs(int i, int j) {
 		final ArrayDeque<Minsic> queue = new ArrayDeque<>();
 		
-		V[i][j] = true;
-		queue.offerLast(new Minsic(i, j, 0, new boolean[6]));
+		v[i][j][0]=true;
+		queue.offerLast(new Minsic(i, j, 0, 0));
 		
 		while(!queue.isEmpty()) {
-			Minsic ms = queue.pollFirst();
+			Minsic cur_Minsic = queue.pollFirst(); //현 좌표의 민식이 정보
 			
 			for(int d=0;d<4;d++) {
-				int ni = ms.i+di[d];
-				int nj = ms.j+dj[d];
+				int ni = cur_Minsic.i+di[d];
+				int nj = cur_Minsic.j+dj[d];
 				
-				//범위를 벗어났거나 들른 곳이면 넘어감
-				if(ni<0 || ni>=N || nj<0 || nj>=M || V[ni][nj]) continue;
+				//범위를 벗어나거나 벽 도달 시 넘어감
+				if(ni<0 || ni>=N || nj<0 || nj>=M || map[ni][nj]=='#'
+						|| v[ni][nj][cur_Minsic.key]) continue;
 				
 				//출구에 도달
 				if(map[ni][nj]=='1') {
-					sb.append(ms.cnt+1);
+					sb.append(cur_Minsic.cnt+1);
 					return;
 				}
 				
-				//벽 도달
-				if(map[ni][nj]=='#') {
-					V[ni][nj] = true;
+				//빈 칸에 도달
+				if(map[ni][nj]=='.' || map[ni][nj]=='0') {
+					v[ni][nj][cur_Minsic.key]=true;
+					queue.offerLast(new Minsic(ni, nj, cur_Minsic.cnt+1, cur_Minsic.key));
 					continue;
-				}
-				
-				//빈칸에 도달
-				if(map[ni][nj]=='.') {
-					V[ni][nj] = true;
-					queue.offerLast(new Minsic(ni, nj, ms.cnt+1, ms.keys));
 				}
 				
 				//열쇠에 도달
 				if('a'<=map[ni][nj] && map[ni][nj]<='f') {
-					V[ni][nj] = true;
-					ms.keys[map[ni][nj]-'a'] = true;
-					queue.offerLast(new Minsic(ni, nj, ms.cnt+1, ms.keys));
-					continue;
+					v[ni][nj][cur_Minsic.key]=true;
+					queue.offerLast(new Minsic(ni, nj, cur_Minsic.cnt+1, 
+									cur_Minsic.key | (1<<(map[ni][nj]-'a'))));
+					continue; 
 				}
 				
 				//문에 도달
-				
-				
-				
-				
+				if('A'<=map[ni][nj] && map[ni][nj]<='F') {
+					if((cur_Minsic.key&(1<<(map[ni][nj]-'A')))
+							== (int)Math.pow(2, map[ni][nj]-'A')) {
+						v[ni][nj][cur_Minsic.key]=true;
+						queue.offerLast(new Minsic(ni, nj, cur_Minsic.cnt+1, cur_Minsic.key));
+					}
+					
+				}
 			}
 		}
+		sb.append(-1);
 	}
 }
