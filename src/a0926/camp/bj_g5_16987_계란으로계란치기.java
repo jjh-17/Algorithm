@@ -76,5 +76,5 @@ public class bj_g5_16987_계란으로계란치기 {
 //		idx 번째 계란 이외의 모든 계란이 깨진 경우 ANS 최신화 
 //			==> 남은 계란이 없으니 더이상의 dfs는 의미가 없음
 		if(!flag) ANS = Integer.max(ANS, broken);
-	}	
+	}
 }
