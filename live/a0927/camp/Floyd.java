@@ -22,12 +22,13 @@ public class Floyd {
 		}
 		System.out.println("===========입력==========");
 		print();
+		
         // 출발지-->경유지-->목적지로 3중 루프 돌리면 오답
         // 경유지-->출발지-->목적지로 3중 루프 돌려야 정답
-		for(int k=0; k<N; ++k) {
-			for(int i=0; i<N; ++i) {
-				if(i==k) continue; // 출발지와 경유지가 같다면 다음 출발지
-				for(int j=0; j<N; ++j) {
+		for(int k=0; k<N; ++k) {			// 경유지
+			for(int i=0; i<N; ++i) {		// 출발지
+				if(i==k) continue; 			// 출발지와 경유지가 같다면 다음 출발지
+				for(int j=0; j<N; ++j) {	// 목적지
 					if(i==j || k==j) continue; // 경유지와 목적지가 같거나 출발지가 곧 목적지라면 패스
 					if(distance[i][j] > distance[i][k]+distance[k][j]) {
 					   distance[i][j] = distance[i][k]+distance[k][j];
