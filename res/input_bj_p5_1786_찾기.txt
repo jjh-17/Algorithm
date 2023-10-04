@@ -1,0 +1,8 @@
+ABC ABCDAB ABCDABCDABDE
+ABCDABD
+
+1
+16
+
+===============================
+

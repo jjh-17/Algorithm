@@ -20,7 +20,7 @@ public class TopologicalSort {
 	
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-		System.setIn(new FileInputStream("res\\topolgysort_input.txt"));
+		System.setIn(new FileInputStream("res\\input_live_topolgysort_input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		
