@@ -32,7 +32,13 @@ public class swea_d4_8458_원점으로집합 {
 			}
 			
 //			알고리즘
-//			1. 원점까지의 거리가 모두 짝수거나 모두 홀수가 아니라면 모든 점의 원점 회귀 불가
+//			1. 최대 거리가 0인 경우 시간 0
+			if(maxD==0) {
+				sb.append(0).append("\n");
+				continue;
+			}
+			
+//			2. 원점까지의 거리가 모두 짝수거나 모두 홀수가 아니라면 모든 점의 원점 회귀 불가
 			int rest = dist[0]%2;
 			boolean noHope = false;
 			for(int d : dist) {
@@ -46,81 +52,19 @@ public class swea_d4_8458_원점으로집합 {
 				continue;
 			}
 			
-//			2. 원점까지의 거리가 모두 짝수거나 모두 홀수인 경우
+//			3. 원점까지의 거리가 모두 짝수거나 모두 홀수인 경우
 			int day=0;
 			while(maxD-day > 0) {
 				++day;
 				maxD-=day;
 			}
 			
-			++day;
-			if(maxD==)
-			
-			if(maxD>0) {
-				if(maxD%2 != day%2) day+=2;
-			}
-			
-			sb.append(day).append("\n");
+			if(maxD==0)							sb.append(day).append("\n");
+			else if((day+1)%2==maxD%2)			sb.append(day+1).append("\n");
+			else if((day+1)%2==0 && maxD%2==1)	sb.append(day+2).append("\n");
+			else if((day+1)%2==1 && maxD%2==0)	sb.append(day+3).append("\n");
 		}
 		System.out.println(sb.toString());
 		br.close();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
