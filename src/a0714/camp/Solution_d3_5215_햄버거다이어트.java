@@ -4,8 +4,6 @@ import java.util.*;
 import java.io.*;
 import java.lang.Math;
 
-
-
 class Info {
 	int T = 0; //점수
 	int K = 0; //현재 칼로리

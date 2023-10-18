@@ -25,10 +25,8 @@ public class Solution_d3_1289_원재의메모리복구하기 {
 					continue;
 				
 				answer += 1;
-				if(s == "0")
-					s = "1";
-				else
-					s = "0";
+				if(s == "0") s = "1";
+				else s = "0";
 			}
 			System.out.println();
 			sb.append("#").append(tc).append(" ").append(answer).append("\n");
