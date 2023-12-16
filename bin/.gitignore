@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /a0714/
 /a0731/
 /a0801/
@@ -25,14 +26,29 @@
 /a0908/
 /a0911/
 /a0925/
+=======
+>>>>>>> a98f163d709b47d2e45639058a9a604b3d7ba2a1
 /a0926/
 /a0927/
 /a1004/
-/a1005/
-/a1010/
 /a1011/
+<<<<<<< HEAD
 /a1012/
 /a1013/
 /a1016/
 /dp/
 /samsung/
+=======
+/simulation/
+/dfs_bfs/
+/dijkstra/
+/a0825/
+>>>>>>> a98f163d709b47d2e45639058a9a604b3d7ba2a1
+/a1010/
+/stack_queue/
+/sliding/
+/sort/
+/greedy/
+/graph/
+/binary_search/
+/a1005/
