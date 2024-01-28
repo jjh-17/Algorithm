@@ -2,10 +2,6 @@
 /dfs_bfs/
 /dp/
 /graph/
-/greedy/
-/simulation/
-/sliding/
-/stack_queue/
 /a0801/
 /a0802/
 /a0803/
@@ -25,5 +21,7 @@
 /a0927/
 /a1004/
 /a1011/
-/서울_20반_10기_지준호.class
-/서울_20반_10기_지준호$1.class
+/greedy/
+/simulation/
+/sliding/
+/stack_queue/
