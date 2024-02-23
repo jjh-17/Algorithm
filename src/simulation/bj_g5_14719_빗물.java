@@ -27,8 +27,8 @@ public class bj_g5_14719_빗물 {
 			arr[i] = Integer.parseInt(st.nextToken());
 		
 //		알고리즘
-//		1) W==1 이면 빗물을 담을 수 없음
-		if(W==1) {
+//		1) W<=2 이면 빗물을 담을 수 없음
+		if(W<=2) {
 			System.out.println(ans);
 			br.close();
 		}
