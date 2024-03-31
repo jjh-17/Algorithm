@@ -25,21 +25,21 @@ public class bj_g5_14719_빗물 {
 		for(int i=0;i<W;i++) {
 			arr[i] = Integer.parseInt(st.nextToken());
 		}
-		
-//		알고리즘
-		int L=0, R=0, minH;
+
+		int L=arr[0], R, minH;
 		for(int i=1;i<W-1;i++) {
-			L=0; 
+//			우측 가장 높은 기둥
 			R=0;
+			for(int j=i+1;j<W;j++)
+				R = Math.max(R, arr[j]);
 			
-			for(int l=0;l<i;l++)
-				L = Math.max(L, arr[l]);
-			for(int l=i+1;l<W;l++)
-				R = Math.max(R, arr[l]);
+//			좌측 최고 높이 기둥, 우측 최고 높이 기둥 중 가장 작은 기둥이 고일 수 있는 최대 높이
 			minH = Math.min(L, R);
-			
 			if(arr[i] < minH)
-				ans += (minH-arr[i]);
+				ans += (minH - arr[i]);
+			
+//			좌측 가장 높은 기둥
+			L = Math.max(L,  arr[i]);
 		}
 		
 //		출력
