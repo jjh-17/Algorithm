@@ -1,4 +1,4 @@
-package exhaustiveSearch;
+package bruteForce;
 
 import java.util.*;
 import java.io.*;
