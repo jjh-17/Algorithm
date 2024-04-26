@@ -34,7 +34,7 @@ public class bj_g5_7490_0만들기 {
 		br.close();
 	}
 
-//	현재 문자열, 번호, 숫자, 결과
+//	현재 문자열, 번호, 누적 숫자, 결과
 	static void dfs(String str, int idx, int num, int result) {
 		if(idx==N+1) {
 			result += num;
