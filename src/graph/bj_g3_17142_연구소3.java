@@ -5,14 +5,22 @@ import java.io.*;
 
 public class bj_g3_17142_연구소3 {
 
-	static final StringBuilder sb = new StringBuilder();
-	static final int[] di = {-1, 0, 1, 0};				// 4방 탐색
+	static final int D = 4;
+	static final int[] di = {-1, 0, 1, 0};
 	static final int[] dj = {0, 1, 0, -1};
-	static int N, M, ANS;								// 연구소 크기, 활성화할 바이러스 개수, 최소 시간
-	static int[][] state;								// 연구소 정보
-	static int[][] activated;							// 활성화된 바이러스 위치 저장
-	static final List<int[]> virus = new ArrayList<>();	// 초기 바이러스 위치 저장
-	static int empty;									// 빈 칸의 개수
+	static int N, M, cnt_safe, ans;
+	static int[][] map;
+	
+	static final List<Cord> viruses = new ArrayList<>();
+	static Cord[] activated;
+	static class Cord {
+		int i, j;
+		
+		Cord(int i, int j) {
+			this.i = i;
+			this.j = j;
+		}
+	}
 	
 	public static void main(String[] args) throws Exception {
 		System.setIn(new FileInputStream("res\\input_bj_g3_17142_연구소3.txt"));
@@ -24,74 +32,88 @@ public class bj_g3_17142_연구소3 {
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
 		
-		state = new int[N][N];
+		map = new int[N][N];
 		for(int i=0;i<N;i++) {
 			st = new StringTokenizer(br.readLine());
 			for(int j=0;j<N;j++) {
-				state[i][j] = Integer.parseInt(st.nextToken());
-				if(state[i][j]==0) ++empty;
-				else if(state[i][j]==2) virus.add(new int[] {i, j});
+				map[i][j] = Integer.parseInt(st.nextToken());
+				if(map[i][j] == 0) {
+					++cnt_safe;	
+					continue;
+				}
+				
+				if(map[i][j] == 2)
+					viruses.add(new Cord(i, j));
 			}
 		}
 		
 //		알고리즘
-		ANS = Integer.MAX_VALUE;
-		activated = new int[M][2];
-		comb(0, 0);
+		activated = new Cord[M];
+		if(cnt_safe==0)	ans = 0;
+		else {
+			ans = Integer.MAX_VALUE;
+			comb(0, 0);
+		}
 		
 //		출력
-		sb.append(ANS==Integer.MAX_VALUE ? -1 : ANS);
-		System.out.println(sb.toString());
+		System.out.println(ans==Integer.MAX_VALUE ? -1 : ans);
 		br.close();
 	}
 	
+//	바이러스 중 M개 조합
 	static void comb(int start, int cnt) {
-		if(cnt==M) {
-			spread();
+		if(cnt == M) {
+			BFS();
 			return;
 		}
 		
-		for(int i=start;i<virus.size();i++) {
-			int[] cor = virus.get(i);
-			activated[cnt][0] = cor[0]; activated[cnt][1] = cor[1];
+		for(int i=start;i<viruses.size();i++) {
+			Cord cord = viruses.get(i);
+			activated[cnt] = new Cord(cord.i, cord.j);
 			comb(i+1, cnt+1);
 		}
 	}
-
-//	BFS 방식으로 
-	static void spread() {
-		final ArrayDeque<int[]> queue = new ArrayDeque<>();
-		boolean[][] v = new boolean[N][N];
-		for(int[] cor : activated) {
-			queue.offerLast(new int[] {cor[0], cor[1]});
-			v[cor[0]][cor[1]] = true;
+	
+	static void BFS() {
+		final boolean[][] v = new boolean[N][N];
+		final ArrayDeque<Cord> pq = new ArrayDeque<>();
+		int time = 0;
+		
+//		바이러스 시작점 추가
+		for(Cord act : activated) {
+			pq.offerLast(new Cord(act.i, act.j));
+			v[act.i][act.j] = true;
 		}
 		
-		int time=0;
-		int rest = empty;
-		while(!queue.isEmpty() && rest>0) {
-			++time;
-			if(ANS <= time) return;
+//		BFS
+		int cnt_safe2 = cnt_safe;
+		while(!pq.isEmpty()) {
+//			시간 단축 용 탈출 조건
+			if(ans <= time++)	return;
 			
-			int L = queue.size();
+			int L = pq.size();
 			for(int i=0;i<L;i++) {
-				int[] cur = queue.pollFirst();
+				Cord cord = pq.pollFirst();
 				
-				for(int d=0;d<4;d++) {
-					int ni = cur[0] + di[d];
-					int nj = cur[1] + dj[d];
+				for(int d=0;d<D;d++) {
+					int ni = cord.i + di[d];
+					int nj = cord.j + dj[d];
 					
-//					신규 좌표가 연구소 범위를 벗어나거나 이미 들른 곳, 벽이면 넘어감
-					if(ni<0 || ni>=N || nj<0 || nj>=N 
-							|| v[ni][nj] || state[ni][nj]==1) continue;
+//					범위를 벗어나거나 이미 들린 곳, 혹은 벽
+					if(ni<0 || nj<0 || ni>=N || nj>=N || v[ni][nj] || map[ni][nj]==1)
+						continue;
 					
-					queue.offerLast(new int[] {ni, nj});
+					pq.offerLast(new Cord(ni, nj));
 					v[ni][nj] = true;
-					if(state[ni][nj]==0) --rest;
+					if(map[ni][nj]==0)	--cnt_safe2;
+					if(cnt_safe2==0) {
+						ans = Integer.min(ans, time);
+						return;
+					}
 				}
 			}
 		}
 		
-		if(rest==0) ANS = Integer.min(ANS, time);
+		ans = cnt_safe2==0 ? Integer.min(ans, time) : ans;
 	}
 }
