@@ -36,14 +36,14 @@ public class bj_스위치켜고끄기 {
 					arr[k-1] = (arr[k-1]==0 ? 1 : 0);
 			} else { //여학생 ==> 번호 중심, 좌우가 대칭/가장 많은 스위치 포함 구간 내 상태 변경
 				arr[n-1] = arr[n-1]==0 ? 1 : 0;
-				int left = n-2, right = n;
+				int L = n-2, right = n;
 				while(true) {
 					//범위 밖 이거나 동일 값이 아닌 경우 탈출
-					if(left<0 || right>=N || arr[left]!=arr[right])
+					if(L<0 || right>=N || arr[L]!=arr[right])
 						break;
 					
-					arr[left] = arr[right] = (arr[left]+1)%2;
-					--left; ++right;
+					arr[L] = arr[right] = (arr[L]+1)%2;
+					--L; ++right;
 				}
 			}
 		}
