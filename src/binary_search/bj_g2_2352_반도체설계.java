@@ -1,16 +1,16 @@
 package binary_search;
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-public class bj_g2_12015_가장긴증가하는부분수열2 {
+public class bj_g2_2352_반도체설계 {
 
 	static int N;
 	static int[] arr;
 	static final List<Integer> list = new ArrayList<>();
 	
 	public static void main(String[] args) throws Exception {
-		System.setIn(new FileInputStream("res\\input_bj_g2_12015_가장긴증가하는부분수열2.txt"));
+		System.setIn(new FileInputStream("res\\input_bj_g2_2352_반도체설계.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		
@@ -19,10 +19,8 @@ public class bj_g2_12015_가장긴증가하는부분수열2 {
 		
 		st = new StringTokenizer(br.readLine());
 		arr = new int[N];
-		for(int i=0;i<N;i++)	{
-			arr[i] = Integer.parseInt(st.nextToken());
-		}
-			
+		for(int i=0;i<N;i++)	arr[i] = Integer.parseInt(st.nextToken());
+		
 //		알고리즘
 		solution();
 		
@@ -30,7 +28,7 @@ public class bj_g2_12015_가장긴증가하는부분수열2 {
 		System.out.println(list.size());
 		br.close();
 	}
-	
+
 	static void solution() {
 		list.add(arr[0]);
 		for(int i=1;i<N;i++) {
@@ -52,4 +50,5 @@ public class bj_g2_12015_가장긴증가하는부분수열2 {
 		
 		return R;
 	}
+	
 }
