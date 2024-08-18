@@ -1,0 +1,21 @@
+# SELECT sub.CATEGORY, SUM(sub.SALES) AS TOTAL_SALES
+# FROM (
+#     SELECT b.BOOK_ID, b.CATEGORY, bs.SALES
+#     FROM BOOK b
+#     LEFT JOIN BOOK_SALES bs
+#     USING(BOOK_ID)
+#     WHERE DATE_FORMAT(bs.SALES_DATE, '%Y-%m') = '2022-01'
+# ) sub
+# GROUP BY sub.CATEGORY
+# ORDER BY sub.CATEGORY;
+
+# ==================================================================
+
+SELECT b.CATEGORY, SUM(bs.SALES) AS TOTAL_SALES
+FROM BOOK b
+LEFT JOIN BOOK_SALES bs ON b.BOOK_ID = bs.BOOK_ID
+WHERE
+    bs.SALES_DATE >= '2022-01-01' AND 
+    bs.SALES_DATE < '2022-02-01'
+GROUP BY b.CATEGORY
+ORDER BY b.CATEGORY;
